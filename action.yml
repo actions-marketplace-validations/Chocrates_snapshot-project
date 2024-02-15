@@ -30,7 +30,7 @@ runs:
     - name: Upload Files to Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: project-${{ project-id }}-snapshot-${{ env.TIMESTAMP }}
+        name: project-${{ inputs.project-id }}-snapshot-${{ env.TIMESTAMP }}
         path: |
           project.json
           repository-mappings.csv
