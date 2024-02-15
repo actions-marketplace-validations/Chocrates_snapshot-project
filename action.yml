@@ -1,0 +1,37 @@
+name: 'Snapshot Project'
+description: 'Generates a csv of the project at a point in time that can be used to backup the project'
+inputs:
+  project-owner:  # id of input
+    description: 'Owner of the project'
+    required: true
+  project-id:
+    description: 'Id of the project in which we are taking  a snapshot'
+    required: true
+  pat:
+    description: 'Access token that will be used to take the snapshot'
+runs:
+  using: "composite"
+  steps:
+    - name: Install Tools
+      shell: bash
+      run: |
+        gh extension install timrogers/gh-migrate-project
+    - name: Take Snapshot
+      shell: bash
+      run: |
+        gh migrate-project export --access-token ${{ inputs.pat }} \
+          --project-owner ${{ inputs.project-owner }} \
+          --project-number ${{ inputs.project-id }}
+    - name: Get current Date
+      shell: bash
+      run: |
+        TIMESTAMP=$(date +%Y-%m-%d.%H:%M.%S)
+        echo "TIMESTAMP=$TIMESTAMP" >> "$GITHUB_ENV"
+    - name: Upload Files to Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: project-${{ project-id }}-snapshot-${{ env.TIMESTAMP }}
+        path: |
+          project.json
+          repository-mappings.csv
+
