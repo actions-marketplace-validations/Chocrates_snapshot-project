@@ -11,15 +11,17 @@ inputs:
     description: 'Access token that will be used to take the snapshot'
 runs:
   using: "composite"
-  env:
-     GH_TOKEN: ${{ inputs.pat }}
   steps:
     - name: Install Tools
       shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.pat }}
       run: |
         gh extension install timrogers/gh-migrate-project
     - name: Take Snapshot
       shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.pat }}
       run: |
         gh migrate-project export --access-token ${{ inputs.pat }} \
           --project-owner ${{ inputs.project-owner }} \
