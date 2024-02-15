@@ -39,6 +39,7 @@ runs:
           project.json
           repository-mappings.csv
     - name: Cleanup
+      shell: bash
       run: |
         rm -f project.json
         rm -f repository-mappings.csv
