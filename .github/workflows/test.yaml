@@ -1,0 +1,14 @@
+name: Test Action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: chocrates/snapshot-project@main
+        with:
+          project-owner: chocrates-test-org
+          project-id: 11
+          pat: ${{ secrets.PAT }}
