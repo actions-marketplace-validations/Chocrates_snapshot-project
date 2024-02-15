@@ -18,6 +18,8 @@ runs:
         gh extension install timrogers/gh-migrate-project
     - name: Take Snapshot
       shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.pat }}
       run: |
         gh migrate-project export --access-token ${{ inputs.pat }} \
           --project-owner ${{ inputs.project-owner }} \
